@@ -1,0 +1,58 @@
+<div
+  *ngIf="userList.length"
+  class="w-4/4 shadow-md p-10 bg-white shadow-blue-200/20 mx-36 my-10"
+>
+  <div class="flex justify-between items-center mb-4 mt-4">
+    <h1>RANDOM USER LIST</h1>
+  </div>
+
+  <table class="w-full border-4">
+    <thead>
+      <tr>
+        <th class="p-3 text-left bg-gray-200">Fullname<button (click)="toggleFullNameSort()">
+            {{ sortFullNameOrder === 'asc' ? '▲' : '▼' }}
+          </button></th>
+        <th class="p-3 text-left bg-gray-200">Username<button (click)="toggleUserNameSort()">
+            {{ sortUsernameOrder === 'asc' ? '▲' : '▼' }}
+          </button></th>
+        <th class="p-3 text-left bg-gray-200">Thumbnail Icon</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-2" *ngFor="let user of paginatedUserList">
+        <td class="p-3 border-2">
+          {{ user.title }} {{ user.first }} {{ user.last }}
+        </td>
+        <td class="p-3 border-2">{{ user.username }}</td>
+        <td class="p-3 border-2"><img [src]="user.thumbnail" /></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="mt-4 flex items-center justify-center">
+    <button
+      class="text-cyan-500 border-4 py-2 px-4 rounded-l-lg cursor-pointer mr-5"
+      (click)="previousPageBtn()"
+      *ngIf="!isLoading && currentPage !== 1"
+    >
+      Previous
+    </button>
+
+    <button
+      *ngFor="let p of pages"
+      id="pageNumber"
+      class="py-2 px-4 cursor-pointer bg-cyan-500 text-white ml-5"
+      (click)="setPage(p)"
+    ><p [class.active]="currentPage === p" >{{ p }}</p></button>
+
+
+    <button
+      class="text-cyan-500 border-4 py-2 px-4 rounded-r-lg cursor-pointer ml-3"
+      (click)="nextPageBtn()"
+      *ngIf="!isLoading && currentPage !== totalPage"
+    >
+      Next
+    </button>
+  </div>
+</div>
+<div *ngIf="isLoading">Đang tải dữ liệu...</div>
